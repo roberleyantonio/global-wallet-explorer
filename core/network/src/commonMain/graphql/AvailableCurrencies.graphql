@@ -1,0 +1,8 @@
+query AvailableCurrencies {
+    currencies {
+        code
+        name
+        decimalDigits
+        active
+    }
+}

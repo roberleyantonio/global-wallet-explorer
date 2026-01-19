@@ -1,0 +1,6 @@
+query ConvertAmount($amount: BigDecimal!, $base: String!, $quotes: [String!], $date: Date) {
+    convert(amount: $amount, baseCurrency: $base, quoteCurrencies: $quotes, date: $date) {
+        quoteCurrency
+        quoteAmount
+    }
+}
