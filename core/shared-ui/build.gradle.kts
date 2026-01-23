@@ -49,7 +49,7 @@ kotlin {
 
 android {
     namespace = "br.com.dev360.globalwalletexplorer.coresharedui"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26

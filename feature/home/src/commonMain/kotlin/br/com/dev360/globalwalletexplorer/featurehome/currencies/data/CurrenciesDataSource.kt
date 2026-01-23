@@ -2,7 +2,6 @@ package br.com.dev360.globalwalletexplorer.featurehome.currencies.data
 
 import br.com.dev360.globalwalletexplorer.corenetwork.AvailableCurrenciesQuery
 import br.com.dev360.globalwalletexplorer.corenetwork.ConvertAmountQuery
-import br.com.dev360.globalwalletexplorer.corenetwork.LatestRatesQuery
 import br.com.dev360.globalwalletexplorer.corenetwork.extensions.safeQuery
 import br.com.dev360.globalwalletexplorer.corenetwork.helper.ApiResult
 import br.com.dev360.globalwalletexplorer.corenetwork.helper.mapSuccess

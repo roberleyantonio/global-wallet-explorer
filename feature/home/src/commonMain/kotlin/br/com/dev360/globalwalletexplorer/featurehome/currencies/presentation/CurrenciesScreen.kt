@@ -14,8 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import br.com.dev360.globalwalletexplorer.coresharedui.extensions.setAndNavigate
 import br.com.dev360.globalwalletexplorer.coresharedui.helpers.asString
 import br.com.dev360.globalwalletexplorer.featurehome.currencies.components.CurrencyList
 import br.com.dev360.globalwalletexplorer.featurehome.currencies.components.ErrorView
@@ -28,9 +26,9 @@ import org.koin.compose.viewmodel.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CurrenciesScreen(
-    navController: NavController,
-    viewModel: CurrenciesViewModel = koinViewModel(),
+    onBackPressed: () -> Unit,
     navToLatestRates: (String) -> Unit,
+    viewModel: CurrenciesViewModelInterface = koinViewModel<CurrenciesViewModel>(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val error = uiState.error
@@ -38,7 +36,7 @@ fun CurrenciesScreen(
     val handleEvents = { event: CurrenciesEvents ->
         when(event) {
             is CurrenciesEvents.GoToLatestRates -> navToLatestRates(event.base)
-            CurrenciesEvents.GoToBack -> navController.popBackStack()
+            CurrenciesEvents.GoToBack -> onBackPressed()
         }
     }
 

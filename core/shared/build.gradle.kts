@@ -22,7 +22,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(libs.koin.core)
-            api(libs.koin.annotations)
             api(libs.kotlinx.coroutines.core)
         }
         androidMain.dependencies {
@@ -33,7 +32,7 @@ kotlin {
 
 android {
     namespace = "br.com.dev360.globalwalletexplorer.coreshared"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26

@@ -11,6 +11,8 @@ import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.model.Cu
 import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.model.toCurrencyList
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -32,45 +34,52 @@ sealed class CurrenciesEvents {
     data object GoToBack: CurrenciesEvents()
 }
 
+interface CurrenciesViewModelInterface {
+    val uiState: StateFlow<CurrenciesUiState>
+    val events: SharedFlow<CurrenciesEvents>
+    fun getAvailableCurrencies()
+    fun goToLatestRates(base: String)
+}
+
 @KoinViewModel
 class CurrenciesViewModel(
     private val uiModel: CurrenciesContracts.UiModel,
     private val repository: CurrenciesContracts.Repository
-) : ViewModel() {
+) : ViewModel(), CurrenciesViewModelInterface {
 
     private val _uiState = MutableStateFlow(CurrenciesUiState())
     private val _events = MutableSharedFlow<CurrenciesEvents>()
 
-    val uiState = _uiState.asStateFlow()
-    val events = _events.asSharedFlow()
+    override val uiState = _uiState.asStateFlow()
+    override val events = _events.asSharedFlow()
 
-    fun getAvailableCurrencies() = viewModelScope.launch {
-        flow {
-            emit(repository.getAvailableCurrencies())
-        }.onStart {
-            _uiState.update { it.copy(isLoading = true) }
-        }.collectLatest { result ->
+    override fun getAvailableCurrencies() {
+        viewModelScope.launch {
+            flow {
+                emit(repository.getAvailableCurrencies())
+            }.onStart {
+                _uiState.update { it.copy(isLoading = true) }
+            }.collectLatest { result ->
 
-            result.onHandle(
-                success = { data ->
-                    _uiState.update {
-                        it.copy(
-                            currencies = data.toCurrencyList(),
-                            isLoading = false
-                        )
-                    }
-                },
-                failure = { error -> handleFailure(error) }
-            )
+                result.onHandle(
+                    success = { data ->
+                        _uiState.update {
+                            it.copy(
+                                currencies = data.toCurrencyList(),
+                                isLoading = false
+                            )
+                        }
+                    },
+                    failure = { error -> handleFailure(error) }
+                )
+            }
         }
     }
 
-    fun goToLatestRates(base: String) = viewModelScope.launch {
-        _events.emit(CurrenciesEvents.GoToLatestRates(base))
-    }
-
-    fun goToBack() = viewModelScope.launch {
-        _events.emit(CurrenciesEvents.GoToBack)
+    override fun goToLatestRates(base: String) {
+        viewModelScope.launch {
+            _events.emit(CurrenciesEvents.GoToLatestRates(base))
+        }
     }
 
     private fun handleFailure(failure: ApiResult.Failure) {

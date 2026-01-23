@@ -21,7 +21,7 @@ fun SetupNavGraph(
     ) {
         composable<ScreenRoute.CurrenciesScreen> {
             CurrenciesScreen(
-                navController = navController,
+                onBackPressed = { navController.popBackStack() },
                 navToLatestRates = { navController.navigate(ScreenRoute.LatestRatesScreen(it)) }
             )
         }

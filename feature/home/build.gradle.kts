@@ -1,4 +1,7 @@
-import org.jetbrains.compose.compose
+@file:OptIn(ExperimentalComposeLibrary::class)
+
+import org.jetbrains.compose.ExperimentalComposeLibrary
+
 
 plugins {
     "kotlin"
@@ -11,7 +14,9 @@ plugins {
 }
 
 kotlin {
-    androidTarget {}
+    androidTarget {
+        publishLibraryVariants("release", "debug")
+    }
 
     listOf(
         iosArm64(),
@@ -32,6 +37,7 @@ kotlin {
             implementation(libs.compose.navigation)
 
             implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.annotations)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(compose.materialIconsExtended)
@@ -44,12 +50,26 @@ kotlin {
             implementation(libs.kotlin.test)
             implementation(libs.kotlin.test.annotations.common)
             implementation(libs.kotlinx.coroutines.test)
-            implementation(libs.mokkery.gradle)
+            //implementation(libs.mokkery.gradle)
             implementation(libs.turbine)
             implementation(libs.ui.test)
+            implementation(compose.uiTest)
 
             implementation(libs.koin.test)
         }
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+                implementation(libs.koin.annotations)
+
+                implementation(libs.kotlin.test.annotations.common)
+                implementation(compose.uiTest)
+                implementation(libs.ui.test)
+
+                implementation(libs.koin.test)
+            }
+        }
+
         androidUnitTest.dependencies {
             implementation(libs.mockk)
         }
@@ -61,10 +81,11 @@ kotlin {
 
 android {
     namespace = "br.com.dev360.globalwalletexplorer.featurehome"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
