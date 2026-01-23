@@ -28,10 +28,8 @@ dependencyResolutionManagement {
     }
 }
 
-include(":core:database")
 include(":composeApp")
 include(":core:shared")
 include(":core:network")
-include(":feature:details")
 include(":core:shared-ui")
 include(":feature:home")

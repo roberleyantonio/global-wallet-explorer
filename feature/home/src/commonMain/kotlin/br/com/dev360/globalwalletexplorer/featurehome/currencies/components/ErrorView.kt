@@ -1,4 +1,4 @@
-package br.com.dev360.globalwalletexplorer.featurehome.components
+package br.com.dev360.globalwalletexplorer.featurehome.currencies.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

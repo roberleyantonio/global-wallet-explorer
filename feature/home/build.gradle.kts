@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.serialization)
+    id("dev.mokkery") version "3.1.1"
 }
 
 kotlin {
@@ -28,9 +29,12 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(compose.components.resources)
+            implementation(libs.compose.navigation)
+
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(compose.materialIconsExtended)
 
             implementation(project(path = ":core:shared"))
             implementation(project(path = ":core:shared-ui"))
@@ -38,6 +42,16 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.kotlin.test.annotations.common)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.mokkery.gradle)
+            implementation(libs.turbine)
+            implementation(libs.ui.test)
+
+            implementation(libs.koin.test)
+        }
+        androidUnitTest.dependencies {
+            implementation(libs.mockk)
         }
         iosTest.dependencies {
             implementation(libs.kotlin.test)

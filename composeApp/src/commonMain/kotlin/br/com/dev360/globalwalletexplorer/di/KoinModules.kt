@@ -1,7 +1,8 @@
 package br.com.dev360.globalwalletexplorer.di
 
 import br.com.dev360.globalwalletexplorer.corenetwork.di.networkModule
-import br.com.dev360.globalwalletexplorer.featurehome.di.HomeModule
+import br.com.dev360.globalwalletexplorer.featurehome.currencies.di.CurrenciesModule
+import br.com.dev360.globalwalletexplorer.featurehome.latestrates.di.LatestRatesModule
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 
@@ -12,7 +13,8 @@ fun initializeKoin(
         config?.invoke(this)
         modules(
             networkModule,
-            HomeModule,
+            CurrenciesModule,
+            LatestRatesModule,
         )
     }
 }

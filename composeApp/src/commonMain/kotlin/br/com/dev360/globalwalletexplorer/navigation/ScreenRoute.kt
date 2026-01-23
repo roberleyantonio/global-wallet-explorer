@@ -5,5 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class ScreenRoute{
     @Serializable
-    data object HomeScreen: ScreenRoute()
+    data object CurrenciesScreen: ScreenRoute()
+
+    @Serializable
+    data class LatestRatesScreen(val base: String): ScreenRoute()
 }

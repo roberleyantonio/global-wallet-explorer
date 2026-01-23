@@ -1,4 +1,4 @@
-package br.com.dev360.globalwalletexplorer.featurehome.presentation
+package br.com.dev360.globalwalletexplorer.featurehome.currencies.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,24 +14,38 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import br.com.dev360.globalwalletexplorer.coresharedui.extensions.setAndNavigate
 import br.com.dev360.globalwalletexplorer.coresharedui.helpers.asString
-import br.com.dev360.globalwalletexplorer.featurehome.components.CurrencyList
-import br.com.dev360.globalwalletexplorer.featurehome.components.ErrorView
+import br.com.dev360.globalwalletexplorer.featurehome.currencies.components.CurrencyList
+import br.com.dev360.globalwalletexplorer.featurehome.currencies.components.ErrorView
 import globalwalletexplorer.feature.home.generated.resources.Res
 import globalwalletexplorer.feature.home.generated.resources.home_title
+import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
-    viewModel: HomeViewModel = koinViewModel()
+fun CurrenciesScreen(
+    navController: NavController,
+    viewModel: CurrenciesViewModel = koinViewModel(),
+    navToLatestRates: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val error = uiState.error
 
+    val handleEvents = { event: CurrenciesEvents ->
+        when(event) {
+            is CurrenciesEvents.GoToLatestRates -> navToLatestRates(event.base)
+            CurrenciesEvents.GoToBack -> navController.popBackStack()
+        }
+    }
+
     LaunchedEffect(Unit) {
         viewModel.getAvailableCurrencies()
+
+        viewModel.events.collectLatest { handleEvents(it) }
     }
 
     Scaffold(
@@ -58,7 +72,10 @@ fun HomeScreen(
                 }
 
                 else -> {
-                    CurrencyList(uiState.currencies)
+                    CurrencyList(
+                        currencies = uiState.currencies,
+                        onCurrencyClick = { viewModel.goToLatestRates(it.code) }
+                    )
                 }
             }
         }

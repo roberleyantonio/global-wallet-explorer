@@ -2,11 +2,12 @@
 <resources>
     <string name="app_name">Global Wallet Explorer</string>
 
-    <string name="error_no_internet">Sem conexão com a internet. Verifique seu Wi-Fi ou dados móveis.</string>
-    <string name="error_server">Erro no servidor (Código: %1$d). Tente novamente mais tarde.</string>
-    <string name="error_unknown">Ocorreu um erro inesperado. Por favor, tente de novo.</string>
-    <string name="error_api_prefix">Erro da API: %1$s</string>
+    <string name="error_no_internet">No internet connection. Please check your Wi-Fi or mobile data.</string>
+    <string name="error_server">Server error (Code: %1$d). Please try again later.</string>
+    <string name="error_unknown">An unexpected error occurred. Please try again.</string>
+    <string name="error_api_prefix">API Error: %1$s</string>
 
-    <string name="home_title">Moedas Disponíveis</string>
-    <string name="retry_button">Tentar Novamente</string>
+    <string name="home_title">Currencies Availables</string>
+    <string name="retry_button">Try again</string>
+    <string name="latest_rates_screen_title">Exchange Rates</string>
 </resources>

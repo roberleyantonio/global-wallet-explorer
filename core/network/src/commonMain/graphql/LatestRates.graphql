@@ -1,4 +1,4 @@
-query LatestRates($base: String = "BRL", $quotes: [String!] = ["USD", "EUR", "BTC"]) {
+query LatestRates($base: String = "BRL", $quotes: [String!] = ["USD", "EUR"]) {
     latest(baseCurrency: $base, quoteCurrencies: $quotes) {
         baseCurrency
         quoteCurrency

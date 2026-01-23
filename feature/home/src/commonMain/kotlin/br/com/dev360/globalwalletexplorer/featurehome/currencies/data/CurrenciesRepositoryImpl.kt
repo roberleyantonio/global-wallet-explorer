@@ -1,22 +1,17 @@
-package br.com.dev360.globalwalletexplorer.featurehome.data
+package br.com.dev360.globalwalletexplorer.featurehome.currencies.data
 
 import br.com.dev360.globalwalletexplorer.corenetwork.AvailableCurrenciesQuery
 import br.com.dev360.globalwalletexplorer.corenetwork.ConvertAmountQuery
 import br.com.dev360.globalwalletexplorer.corenetwork.LatestRatesQuery
 import br.com.dev360.globalwalletexplorer.corenetwork.helper.ApiResult
-import br.com.dev360.globalwalletexplorer.featurehome.domain.HomeContracts
+import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.CurrenciesContracts
 import org.koin.core.annotation.Factory
 
 @Factory
-class HomeRepositoryImpl(
-    private val dataSource: HomeContracts.DataSource
-): HomeContracts.Repository {
+class CurrenciesRepositoryImpl(
+    private val dataSource: CurrenciesContracts.DataSource
+): CurrenciesContracts.Repository {
     override suspend fun getAvailableCurrencies(): ApiResult<List<AvailableCurrenciesQuery.Currency>> = dataSource.getAvailableCurrencies()
-
-    override suspend fun getLatestRates(
-        base: String,
-        quotes: List<String>
-    ): ApiResult<List<LatestRatesQuery.Latest>> = dataSource.getLatestRates(base, quotes)
 
     override suspend fun convertAmount(
         amount: String,

@@ -1,4 +1,4 @@
-package br.com.dev360.globalwalletexplorer.featurehome.presentation
+package br.com.dev360.globalwalletexplorer.featurehome.currencies.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,9 +6,12 @@ import br.com.dev360.globalwalletexplorer.corenetwork.LatestRatesQuery
 import br.com.dev360.globalwalletexplorer.corenetwork.helper.ApiResult
 import br.com.dev360.globalwalletexplorer.corenetwork.helper.onHandle
 import br.com.dev360.globalwalletexplorer.coresharedui.helpers.UiText
-import br.com.dev360.globalwalletexplorer.featurehome.domain.HomeContracts
-import br.com.dev360.globalwalletexplorer.featurehome.domain.model.CurrencyItem
+import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.CurrenciesContracts
+import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.model.CurrencyItem
+import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.model.toCurrencyList
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
@@ -17,21 +20,29 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 
-data class HomeUiState(
+data class CurrenciesUiState(
     val currencies: List<CurrencyItem> = emptyList(),
     val rates: List<LatestRatesQuery.Latest> = emptyList(),
     val error: UiText? = null,
     val isLoading: Boolean = false
 )
 
+sealed class CurrenciesEvents {
+    data class GoToLatestRates(val base: String) : CurrenciesEvents()
+    data object GoToBack: CurrenciesEvents()
+}
+
 @KoinViewModel
-class HomeViewModel(
-    private val uiModel: HomeContracts.UiModel,
-    private val repository: HomeContracts.Repository
+class CurrenciesViewModel(
+    private val uiModel: CurrenciesContracts.UiModel,
+    private val repository: CurrenciesContracts.Repository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState())
+    private val _uiState = MutableStateFlow(CurrenciesUiState())
+    private val _events = MutableSharedFlow<CurrenciesEvents>()
+
     val uiState = _uiState.asStateFlow()
+    val events = _events.asSharedFlow()
 
     fun getAvailableCurrencies() = viewModelScope.launch {
         flow {
@@ -42,11 +53,9 @@ class HomeViewModel(
 
             result.onHandle(
                 success = { data ->
-                    val mappedCurrencies = uiModel.mapToCurrencyList(data)
-
                     _uiState.update {
                         it.copy(
-                            currencies = mappedCurrencies,
+                            currencies = data.toCurrencyList(),
                             isLoading = false
                         )
                     }
@@ -54,6 +63,14 @@ class HomeViewModel(
                 failure = { error -> handleFailure(error) }
             )
         }
+    }
+
+    fun goToLatestRates(base: String) = viewModelScope.launch {
+        _events.emit(CurrenciesEvents.GoToLatestRates(base))
+    }
+
+    fun goToBack() = viewModelScope.launch {
+        _events.emit(CurrenciesEvents.GoToBack)
     }
 
     private fun handleFailure(failure: ApiResult.Failure) {

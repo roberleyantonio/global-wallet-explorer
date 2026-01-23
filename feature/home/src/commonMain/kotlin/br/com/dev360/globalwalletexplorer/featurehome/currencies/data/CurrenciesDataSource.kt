@@ -1,4 +1,4 @@
-package br.com.dev360.globalwalletexplorer.featurehome.data
+package br.com.dev360.globalwalletexplorer.featurehome.currencies.data
 
 import br.com.dev360.globalwalletexplorer.corenetwork.AvailableCurrenciesQuery
 import br.com.dev360.globalwalletexplorer.corenetwork.ConvertAmountQuery
@@ -6,31 +6,21 @@ import br.com.dev360.globalwalletexplorer.corenetwork.LatestRatesQuery
 import br.com.dev360.globalwalletexplorer.corenetwork.extensions.safeQuery
 import br.com.dev360.globalwalletexplorer.corenetwork.helper.ApiResult
 import br.com.dev360.globalwalletexplorer.corenetwork.helper.mapSuccess
-import br.com.dev360.globalwalletexplorer.featurehome.domain.HomeContracts
+import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.CurrenciesContracts
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
 import org.koin.core.annotation.Factory
 
 @Factory
-class HomeDataSourceImpl(
+class CurrenciesDataSourceImpl(
     private val apolloClient: ApolloClient
-) : HomeContracts.DataSource {
+) : CurrenciesContracts.DataSource {
     override suspend fun getAvailableCurrencies(): ApiResult<List<AvailableCurrenciesQuery.Currency>> {
         return apolloClient.safeQuery(AvailableCurrenciesQuery())
             .mapSuccess { it.currencies }
     }
 
-    override suspend fun getLatestRates(
-        base: String,
-        quotes: List<String>
-    ): ApiResult<List<LatestRatesQuery.Latest>> {
-        return apolloClient.safeQuery(
-            LatestRatesQuery(
-                base = Optional.present(base),
-                quotes = Optional.present(quotes)
-            )
-        ).mapSuccess { it.latest }
-    }
+
     override suspend fun convertAmount(
         amount: String,
         from: String,

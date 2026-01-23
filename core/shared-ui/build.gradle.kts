@@ -32,6 +32,9 @@ kotlin {
             api(compose.preview)
             api(libs.androidx.lifecycle.viewmodelCompose)
             api(libs.androidx.lifecycle.runtimeCompose)
+            api(compose.materialIconsExtended)
+
+            implementation(libs.compose.navigation)
 
             implementation(project(path = ":core:shared"))
         }
