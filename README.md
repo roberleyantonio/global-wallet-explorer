@@ -1,4 +1,4 @@
-# 🌍 Global Wallet Explorer
+# 🌍 Global Wallet Explorer KMP
 
 **Global Wallet Explorer** is a high-performance mobile application built with **Kotlin Multiplatform (KMP)**. It allows users to explore global currencies, monitor real-time exchange rates, and track financial data with a focus on efficiency and scalability.
 
@@ -21,6 +21,8 @@ The project follows **Clean Architecture** principles, ensuring separation of co
 * `:composeApp`: UI layer and ViewModels.
 * `:core:network`: Apollo client configuration, normalized cache management, and security interceptors.
 * `:core:shared`: Shared domain models and internationalization utilities.
+* `:core:shared-ui`: Design system and shared components, fonts, theme and more.
+* `:feature:home`: Currencies list and details classes
 
 ## 🔒 Security & API Management
 
@@ -53,7 +55,7 @@ The app is fully internationalized, supporting dynamic locale switching, localiz
 - [x] Global Currency List screen.
 
 ### Phase 2: Testing & Reliability (In Progress 🏗️)
-- [ ] **Unit Testing:** Ensuring business logic and ViewModels are covered with JUnit and Kotlin Test.
+- [x] **Unit Testing:** Ensuring business logic and ViewModels are covered with JUnit and Kotlin Test.
 - [ ] **Compose UI Testing:** Implementing UI tests with Semantics and Test Tag to ensure component reliability.
 - [ ] **Snapshot Testing with Paparazzi:** Verifying UI consistency and internationalization (i18n) across different device sizes and locales without an emulator.
 
