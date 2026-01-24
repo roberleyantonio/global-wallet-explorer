@@ -1,5 +1,4 @@
 plugins {
-    "kotlin"
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.serialization)
@@ -25,17 +24,17 @@ kotlin {
             api(libs.kotlinx.coroutines.core)
         }
         androidMain.dependencies {
-            api(libs.koin.android)
+            implementation(libs.koin.android)
         }
     }
 }
 
 android {
     namespace = "br.com.dev360.globalwalletexplorer.coreshared"
-    compileSdk = 35
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 26
+        minSdk = libs.versions.android.minSdk.get().toInt()
     }
 
     compileOptions {

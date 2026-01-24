@@ -16,26 +16,26 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import br.com.dev360.globalwalletexplorer.featurehome.latestrates.components.RateItem
 import globalwalletexplorer.feature.home.generated.resources.Res
 import globalwalletexplorer.feature.home.generated.resources.latest_rates_screen_title
 import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.viewmodel.koinViewModel
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LatestRatesScreen(
     navController: NavController,
     base: String,
-    viewModel: LatestRatesViewModel = koinViewModel()
+    viewModel: LatestRatesViewModel = koinInject()
 ) {
 
-    val state = viewModel.uiState.collectAsStateWithLifecycle()
+    val state = viewModel.uiState.collectAsState()
     val latestRateList = state.value.latestRateList
 
     val events = { events: LatestRatesEvent ->

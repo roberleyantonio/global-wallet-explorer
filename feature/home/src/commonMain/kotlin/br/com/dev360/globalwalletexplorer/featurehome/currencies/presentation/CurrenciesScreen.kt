@@ -10,10 +10,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.dev360.globalwalletexplorer.coresharedui.helpers.asString
 import br.com.dev360.globalwalletexplorer.featurehome.currencies.components.CurrencyList
 import br.com.dev360.globalwalletexplorer.featurehome.currencies.components.ErrorView
@@ -21,16 +21,16 @@ import globalwalletexplorer.feature.home.generated.resources.Res
 import globalwalletexplorer.feature.home.generated.resources.home_title
 import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.viewmodel.koinViewModel
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CurrenciesScreen(
     onBackPressed: () -> Unit,
     navToLatestRates: (String) -> Unit,
-    viewModel: CurrenciesViewModelInterface = koinViewModel<CurrenciesViewModel>(),
+    viewModel: CurrenciesViewModel = koinInject(),
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsState()
     val error = uiState.error
 
     val handleEvents = { event: CurrenciesEvents ->

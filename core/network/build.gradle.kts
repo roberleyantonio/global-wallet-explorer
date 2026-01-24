@@ -1,7 +1,4 @@
-import com.codingfeline.buildkonfig.compiler.FieldSpec
-
 plugins {
-    "kotlin"
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.serialization)
@@ -47,10 +44,10 @@ kotlin {
 
 android {
     namespace = "br.com.dev360.globalwalletexplorer.corenetwork"
-    compileSdk = 35
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 26
+        minSdk = libs.versions.android.minSdk.get().toInt()
     }
 
     compileOptions {

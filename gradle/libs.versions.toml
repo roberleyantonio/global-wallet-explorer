@@ -1,132 +1,80 @@
 [versions]
+# Build & SDKs
 agp = "8.11.2"
 android-compileSdk = "36"
 android-minSdk = "26"
 android-targetSdk = "36"
-androidx-activity = "1.12.2"
-androidx-appcompat = "1.7.1"
-androidx-core = "1.17.0"
-androidx-espresso = "3.7.0"
-androidx-lifecycle = "2.9.6"
-androidx-testExt = "1.3.0"
-composeMultiplatform = "1.10.0"
-junit = "4.13.2"
-koinTest = "4.1.1"
-kotlin = "2.3.0"
-mokkeryGradle = "3.1.1"
-securityCrypto = "1.1.0-alpha06"
-coil = "2.6.0"
-apollo = "4.1.0"
-buildkonfig = "0.15.2"
+kotlin = "2.2.20"
 ksp = "2.1.10-1.0.29"
 
+# Core Frameworks
+composeMultiplatform = "1.8.2"
 navigation = "2.9.0-beta01"
-auth = "2.3.1"
-notifier = "1.5.1"
-firebase = "2.3.0"
-koin = "4.0.2"
-koin-annotations-bom = "2.3.1"
-serialization = "1.7.3"
-coil3 = "3.0.4"
-ktor = "3.0.3"
+buildkonfig = "0.15.2"
+
+# Others dependencies
+androidx-activity = "1.12.2"
+androidx-lifecycle = "2.9.3"
+apollo = "4.1.0"
 coroutines = "1.10.1"
-messagebar = "1.0.9"
-google = "4.4.2"
-browser = "1.0.4"
-settings = "1.3.0"
+koin = "4.1.1"
+koin-annotations-bom = "1.4.0"
+koinTest = "4.1.1"
+ktor = "3.0.3"
+serialization = "1.7.3"
 splash = "1.0.1"
-firebase-common = "21.0.0"
-firebase-auth = "23.0.0"
-assertk = "0.28.1"
-coreKtx = "1.6.1"
-composeTest = "1.6.8"
+
+# Tests
 uiTest = "1.10.0"
-mockk = "1.13.5"
-mockkCommon = "1.11.0"
 turbine = "1.2.1"
 kotlinx-coroutines-test = "1.8.0"
 
 [libraries]
-koin-test = { module = "io.insert-koin:koin-test", version.ref = "koinTest" }
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
-kotlin-test-annotations_common = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin" }
-junit = { module = "junit:junit", version.ref = "junit" }
-androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
-androidx-testExt-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-testExt" }
-androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-espresso" }
-androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+# --- ANDROID & UI CORE ---
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-lifecycle-viewmodelCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
-androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+compose-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation" }
+splash-screen = { module = "androidx.core:core-splashscreen", version.ref = "splash" }
+
+# --- DEPENDENCY INJECTION (KOIN) ---
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
+koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-annotations-bom" }
+
+# --- NETWORKING & DATA ---
+# Apollo (GraphQL)
 apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime" }
 apollo-normalized-cache = { module = "com.apollographql.apollo:apollo-normalized-cache" }
-mokkery-gradle = { module = "dev.mokkery:mokkery-gradle", version.ref = "mokkeryGradle" }
-splash-screen = { module = "androidx.core:core-splashscreen" , version.ref ="splash" }
-compose-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation" }
-
-auth-kmp = { module = "io.github.mirzemehdi:kmpauth-google", version.ref = "auth" }
-auth-firebase-kmp = { module = "io.github.mirzemehdi:kmpauth-firebase", version.ref = "auth" }
-kmp-notifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "notifier" }
-
-firebase-app = { module = "dev.gitlive:firebase-app", version.ref = "firebase" }
-firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebase" }
-firebase-storage = { module = "dev.gitlive:firebase-storage", version.ref = "firebase" }
-firebase-common = { module = "dev.gitlive:firebase-common", version.ref = "firebase" }
-
-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
-koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-annotations-bom" }
-koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
-koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
-
+# Ktor & Serialization
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
-coil3 = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
-coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
-coil3-compose-core = { module = "io.coil-kt.coil3:coil-compose-core", version.ref = "coil3" }
-coil3-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil3" }
-
-ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-client-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-ktor-darwin-client = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
-ktor-android-client = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
-ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
-
+# --- ASYNC & COROUTINES ---
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 
-messagebar-kmp = { module = "com.stevdza-san:messagebarkmp", version.ref = "messagebar" }
-browser-kmp = { module = "com.stevdza-san:browser-kmp", version.ref = "browser" }
-
-multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }
-multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "settings" }
-multiplatform-settings-make-observable = { module = "com.russhwolf:multiplatform-settings-make-observable", version.ref = "settings" }
-
-firebase-native-common = { module = "com.google.firebase:firebase-common", version.ref = "firebase-common" }
-firebase-native-auth-ktx = { module = "com.google.firebase:firebase-auth", version.ref = "firebase-auth" }
-
-assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }
-compose-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "composeTest" }
-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "composeTest" }
-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtx" }
-ui-test = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "uiTest" }
-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
-mockk-common = { module = "io.mockk:mockk-common", version.ref = "mockkCommon" }
-
+# --- TEST ---
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-test-annotations_common = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koinTest" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+ui-test = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "uiTest" }
 
 [plugins]
+# Android & Kotlin Base
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+
+# Compose Specific
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-google-services = { id = "com.google.gms.google-services", version.ref = "google" }
+
+# Tools & Generators
 apollo = { id = "com.apollographql.apollo", version.ref = "apollo" }
 buildkonfig_plugin = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

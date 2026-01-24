@@ -30,6 +30,7 @@ const val EXPECTED_ERROR_CODE = 500
 val serverError = ApiResult.Failure.HttpError(500, "Internal Server Error")
 val networkError = ApiResult.Failure.NetworkError(exception)
 val unknownError = ApiResult.Failure.UnknownError
+const val NETWORK_ERROR_MESSAGE = "network error"
 
 const val errorMessage = "Invalid currency"
 const val errorItem = "The currency code BRL is not supported in free tier"

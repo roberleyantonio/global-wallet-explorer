@@ -1,5 +1,4 @@
 plugins {
-    "kotlin"
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
@@ -14,7 +13,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "haredui"
+            baseName = "sharedui"
             isStatic = true
             freeCompilerArgs += listOf(
                 "-Xbinary=bundleId=br.com.dev360.globalwalletexplorer.coresharedui"
@@ -23,20 +22,20 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            api(libs.androidx.lifecycle.viewmodelCompose)
+            api(libs.androidx.lifecycle.runtimeCompose)
+        }
         commonMain.dependencies {
             api(compose.runtime)
             api(compose.foundation)
             api(compose.material3)
             api(compose.ui)
             api(compose.components.resources)
-            api(compose.preview)
-            api(libs.androidx.lifecycle.viewmodelCompose)
-            api(libs.androidx.lifecycle.runtimeCompose)
             api(compose.materialIconsExtended)
 
             implementation(libs.compose.navigation)
-
-            implementation(project(path = ":core:shared"))
+            implementation(project(":core:shared"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -49,10 +48,10 @@ kotlin {
 
 android {
     namespace = "br.com.dev360.globalwalletexplorer.coresharedui"
-    compileSdk = 35
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 26
+        minSdk = libs.versions.android.minSdk.get().toInt()
     }
 
     compileOptions {

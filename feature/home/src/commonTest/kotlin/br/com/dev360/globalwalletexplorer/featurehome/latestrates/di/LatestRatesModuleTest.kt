@@ -2,11 +2,14 @@ package br.com.dev360.globalwalletexplorer.featurehome.latestrates.di
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.dev360.globalwalletexplorer.corenetwork.di.qualifiers.CurrenciesQualifier
+import br.com.dev360.globalwalletexplorer.coreshared.scope.AppCoroutineScope
+import br.com.dev360.globalwalletexplorer.coreshared.scope.TestAppCoroutineScope
 import br.com.dev360.globalwalletexplorer.featurehome.latestrates.data.LatestRatesDataSourceImpl
 import br.com.dev360.globalwalletexplorer.featurehome.latestrates.data.LatestRatesRepositoryImpl
 import br.com.dev360.globalwalletexplorer.featurehome.latestrates.domain.LatestRatesContracts
 import br.com.dev360.globalwalletexplorer.featurehome.latestrates.presentation.LatestRatesViewModel
 import com.apollographql.apollo.ApolloClient
+import kotlinx.coroutines.test.StandardTestDispatcher
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
@@ -19,6 +22,7 @@ import kotlin.test.assertNotNull
 
 
 class LatestRatesModuleTest : KoinTest {
+    private val testDispatcher = StandardTestDispatcher()
 
     @AfterTest
     fun tearDown() {
@@ -36,6 +40,10 @@ class LatestRatesModuleTest : KoinTest {
                             .build()
                     }
                     factory { SavedStateHandle() }
+
+                    single<AppCoroutineScope> {
+                        TestAppCoroutineScope(testDispatcher)
+                    }
                 },
                 LatestRatesModule
             )

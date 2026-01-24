@@ -1,10 +1,9 @@
 package br.com.dev360.globalwalletexplorer.featurehome.currencies.presentation
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import br.com.dev360.globalwalletexplorer.corenetwork.LatestRatesQuery
 import br.com.dev360.globalwalletexplorer.corenetwork.helper.ApiResult
 import br.com.dev360.globalwalletexplorer.corenetwork.helper.onHandle
+import br.com.dev360.globalwalletexplorer.coreshared.scope.AppCoroutineScope
 import br.com.dev360.globalwalletexplorer.coresharedui.helpers.UiText
 import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.CurrenciesContracts
 import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.model.CurrencyItem
@@ -20,7 +19,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.android.annotation.KoinViewModel
 
 data class CurrenciesUiState(
     val currencies: List<CurrencyItem> = emptyList(),
@@ -41,20 +39,20 @@ interface CurrenciesViewModelInterface {
     fun goToLatestRates(base: String)
 }
 
-@KoinViewModel
 class CurrenciesViewModel(
     private val uiModel: CurrenciesContracts.UiModel,
-    private val repository: CurrenciesContracts.Repository
-) : ViewModel(), CurrenciesViewModelInterface {
+    private val repository: CurrenciesContracts.Repository,
+    private val scope: AppCoroutineScope
+) {
 
     private val _uiState = MutableStateFlow(CurrenciesUiState())
     private val _events = MutableSharedFlow<CurrenciesEvents>()
 
-    override val uiState = _uiState.asStateFlow()
-    override val events = _events.asSharedFlow()
+    val uiState = _uiState.asStateFlow()
+    val events = _events.asSharedFlow()
 
-    override fun getAvailableCurrencies() {
-        viewModelScope.launch {
+    fun getAvailableCurrencies() {
+        scope.launch {
             flow {
                 emit(repository.getAvailableCurrencies())
             }.onStart {
@@ -76,8 +74,8 @@ class CurrenciesViewModel(
         }
     }
 
-    override fun goToLatestRates(base: String) {
-        viewModelScope.launch {
+    fun goToLatestRates(base: String) {
+        scope.launch {
             _events.emit(CurrenciesEvents.GoToLatestRates(base))
         }
     }

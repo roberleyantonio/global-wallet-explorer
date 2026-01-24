@@ -6,12 +6,11 @@ import br.com.dev360.globalwalletexplorer.featurehome.latestrates.data.LatestRat
 import br.com.dev360.globalwalletexplorer.featurehome.latestrates.domain.LatestRatesContracts
 import br.com.dev360.globalwalletexplorer.featurehome.latestrates.presentation.LatestRatesViewModel
 import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val LatestRatesModule = module {
-    viewModelOf(::LatestRatesViewModel)
+    factoryOf(::LatestRatesViewModel)
 
     factory<LatestRatesContracts.DataSource> { LatestRatesDataSourceImpl(apolloClient = get(CurrenciesQualifier)) }
     factoryOf(::LatestRatesRepositoryImpl) bind LatestRatesContracts.Repository::class
