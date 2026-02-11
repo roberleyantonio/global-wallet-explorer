@@ -4,6 +4,14 @@
 
 This project demonstrates the power of a shared Kotlin codebase between **Android and iOS**, utilizing modern networking and dependency injection patterns.
 
+---
+
+https://github.com/user-attachments/assets/d7d3ca5f-c45a-4214-8c95-ba55399d57c0
+
+https://github.com/user-attachments/assets/0b4b7977-3b9f-4209-862c-d59eb0d71065
+
+---
+
 ## 🛠 Tech Stack
 
 - **Kotlin Multiplatform (KMP):** Shared business logic and networking across platforms.
