@@ -28,7 +28,7 @@ The project follows **Clean Architecture** principles, ensuring separation of co
 
 * `:composeApp`: UI layer and ViewModels.
 * `:core:network`: Apollo client configuration, normalized cache management, and security interceptors.
-* `:core:shared`: Shared domain models and internationalization utilities.
+* `:core:shared`: The project implements a Multi-module Gradle architecture, optimizing build times and ensuring a strict dependency graph between UI, Domain, and Data layers.
 * `:core:shared-ui`: Design system and shared components, fonts, theme and more.
 * `:feature:home`: Currencies list and details classes
 
