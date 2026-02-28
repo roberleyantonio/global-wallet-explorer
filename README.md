@@ -67,12 +67,7 @@ The app is fully internationalized, supporting dynamic locale switching, localiz
 - [ ] **Compose UI Testing:** Implementing UI tests with Semantics and Test Tag to ensure component reliability.
 - [ ] **Snapshot Testing with Paparazzi:** Verifying UI consistency and internationalization (i18n) across different device sizes and locales without an emulator.
 
-### Phase 3: Optimization (Planned 🚀)
-- [x] **Normalized Cache** (SQLite) for offline-first capabilities and API quota saving.
-
-### Phase 4: Advanced Features 🚀
-- [ ] **Historical Data Charts** using a specialized charting library.
-- [ ] User **Watchlist** for favorite currencies.
-- [ ] Dark Mode support and UI polishing.
+### Phase 3: Optimization (Completed ✅)
+- [x] **Normalized Cache** (SQLite) for offline-first capabilities and API quota saving (GraphQL).
 ---
 Developed with ❤️ by [Roberley Pereira] - 2026
