@@ -68,7 +68,7 @@ The app is fully internationalized, supporting dynamic locale switching, localiz
 - [ ] **Snapshot Testing with Paparazzi:** Verifying UI consistency and internationalization (i18n) across different device sizes and locales without an emulator.
 
 ### Phase 3: Optimization & UX (Planned 🚀)
-- [ ] **Normalized Cache** (SQLite) for offline-first capabilities and API quota saving.
+- [x] **Normalized Cache** (SQLite) for offline-first capabilities and API quota saving.
 - [ ] Real-time **Currency Converter** tool.
 - [ ] Search and Filter functionality for the currency list.
 - [ ] Pull-to-refresh and Loading states with Shimmer effect.
