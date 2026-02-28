@@ -9,10 +9,13 @@ import globalwalletexplorer.feature.home.generated.resources.Res
 import globalwalletexplorer.feature.home.generated.resources.error_no_internet
 import globalwalletexplorer.feature.home.generated.resources.error_server
 import globalwalletexplorer.feature.home.generated.resources.error_unknown
+import globalwalletexplorer.feature.home.generated.resources.no_currencies_found
 import org.koin.core.annotation.Factory
 
 @Factory
 class CurrenciesUiModelImpl : CurrenciesContracts.UiModel {
+    override fun getEmptyListText(): UiText = UiText.Resource(Res.string.no_currencies_found)
+
     override fun getFailureText(failure: ApiResult.Failure): UiText {
         return when (failure) {
             is ApiResult.Failure.ApiError -> UiText.DynamicString(failure.message)

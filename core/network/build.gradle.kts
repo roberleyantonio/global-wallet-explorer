@@ -1,9 +1,24 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.serialization)
     alias(libs.plugins.apollo)
+    alias(libs.plugins.buildkonfig.plugin)
 }
+
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        file.inputStream().use { load(it) }
+    }
+}
+
+val apiKey: String = System.getenv("SWOP_API_KEY")
+    ?: localProperties.getProperty("SWOP_API_KEY")
+    ?: ""
 
 kotlin {
     androidTarget {}
@@ -29,7 +44,8 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
 
             api(libs.apollo.runtime)
-            implementation(libs.apollo.normalized.cache)
+            api(libs.apollo.normalized.cache)
+            implementation(libs.apollo.normalized.cache.sqlite)
 
             implementation(project(path = ":core:shared"))
         }
@@ -66,7 +82,15 @@ apollo {
         introspection {
             endpointUrl.set("https://swop.cx/graphql")
             schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
-            headers.put("Authorization", "your_api_key_here")
+            headers.put("Authorization", "ApiKey $apiKey")
         }
+    }
+}
+
+buildkonfig {
+    packageName = "br.com.dev360.globalwalletexplorer.corenetwork"
+
+    defaultConfigs {
+        buildConfigField(FieldSpec.Type.STRING, "API_KEY", apiKey)
     }
 }

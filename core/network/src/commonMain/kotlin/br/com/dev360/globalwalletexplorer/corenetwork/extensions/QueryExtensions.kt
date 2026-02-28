@@ -8,10 +8,17 @@ import com.apollographql.apollo.cache.normalized.fetchPolicy
 
 
 suspend inline fun <D : Query.Data> ApolloClient.safeQuery(
-    query: Query<D>
+    query: Query<D>,
+    policy: FetchPolicy? = null
 ): ApiResult<D> {
     return try {
-        val response = this.query(query).fetchPolicy(FetchPolicy.CacheFirst).execute()
+        var call = this.query(query)
+
+        if (policy != null) {
+            call = call.fetchPolicy(policy)
+        }
+
+        val response = call.execute()
         val data = response.data
 
         when {

@@ -7,6 +7,8 @@
     <string name="error_unknown">An unexpected error occurred. Please try again.</string>
     <string name="error_api_prefix">API Error: %1$s</string>
 
+    <string name="no_currencies_found">No currencies available at the moment</string>
+
     <string name="home_title">Currencies Availables</string>
     <string name="retry_button">Try again</string>
     <string name="latest_rates_screen_title">Exchange Rates</string>

@@ -8,7 +8,9 @@ import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.FakeCurr
 import br.com.dev360.globalwalletexplorer.featurehome.latestrates.BASE_CURRENCY
 import br.com.dev360.globalwalletexplorer.featurehome.latestrates.NETWORK_ERROR_MESSAGE
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
@@ -19,10 +21,11 @@ import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CurrenciesViewModelTest {
-    private val dispatcher = StandardTestDispatcher()
 
     @Test
     fun `success updates currencies and stops loading`() = runTest {
+        val dispatcher = StandardTestDispatcher(testScheduler)
+
         val repository = FakeCurrenciesRepository(
             availableCurrenciesResult = ApiResult.Success(emptyList())
         )
@@ -42,12 +45,38 @@ class CurrenciesViewModelTest {
 
         assertEquals(0, state.currencies.size)
         assertFalse(state.isLoading)
-        assertNull(state.error)
-        assertEquals(0, repository.getAvailableCurrenciesCalls)
+        assertEquals(UiText.DynamicString(NETWORK_ERROR_MESSAGE),state.error)
+        assertEquals(1, repository.getAvailableCurrenciesCalls)
+    }
+
+    @Test
+    fun `success updates currencies  with forceRefresh true and stops loading`() = runTest {
+        val dispatcher = StandardTestDispatcher(testScheduler)
+
+        val repository = FakeCurrenciesRepository(
+            availableCurrenciesResult = ApiResult.Success(emptyList())
+        )
+        val scope = TestAppCoroutineScope(dispatcher)
+
+        val viewModel = CurrenciesViewModel(
+            uiModel = FakeCurrenciesUiModel(UiText.DynamicString("")),
+            repository = repository,
+            scope = scope
+        )
+
+        viewModel.getAvailableCurrencies(forceRefresh = true)
+        advanceUntilIdle()
+
+        val state = viewModel.uiState.first()
+
+        assertEquals(1, repository.getAvailableCurrenciesCalls)
+        assertEquals(true, repository.lastForceRefreshValue)
+        assertFalse(state.isLoading)
     }
 
     @Test
     fun `failure exposes error and stops loading`() = runTest {
+        val dispatcher = StandardTestDispatcher(testScheduler)
         val errorText = UiText.DynamicString(NETWORK_ERROR_MESSAGE)
 
         val repository = FakeCurrenciesRepository(
@@ -67,13 +96,15 @@ class CurrenciesViewModelTest {
 
         val state = viewModel.uiState.first()
 
-        assertEquals(null, state.error)
+        assertEquals(errorText, state.error)
         assertFalse(state.isLoading)
-        assertEquals(0, repository.getAvailableCurrenciesCalls)
+        assertEquals(1, repository.getAvailableCurrenciesCalls)
     }
 
     @Test
     fun `goToLatestRates emits navigation event only`() = runTest {
+        val dispatcher = StandardTestDispatcher(testScheduler)
+
         val repository = FakeCurrenciesRepository(
             availableCurrenciesResult = ApiResult.Success(emptyList())
         )

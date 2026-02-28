@@ -11,7 +11,7 @@ import org.koin.core.annotation.Factory
 class CurrenciesRepositoryImpl(
     private val dataSource: CurrenciesContracts.DataSource
 ): CurrenciesContracts.Repository {
-    override suspend fun getAvailableCurrencies(): ApiResult<List<AvailableCurrenciesQuery.Currency>> = dataSource.getAvailableCurrencies()
+    override suspend fun getAvailableCurrencies(forceRefresh: Boolean): ApiResult<List<AvailableCurrenciesQuery.Currency>> = dataSource.getAvailableCurrencies(forceRefresh)
 
     override suspend fun convertAmount(
         amount: String,

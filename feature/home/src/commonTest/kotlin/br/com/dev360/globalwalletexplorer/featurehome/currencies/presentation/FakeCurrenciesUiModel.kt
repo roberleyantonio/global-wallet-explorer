@@ -7,6 +7,7 @@ import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.Currenci
 class FakeCurrenciesUiModel(
     private val uiText: UiText
 ) : CurrenciesContracts.UiModel {
+    override fun getEmptyListText(): UiText = uiText
 
     override fun getFailureText(failure: ApiResult.Failure): UiText = uiText
 }

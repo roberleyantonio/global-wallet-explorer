@@ -8,14 +8,17 @@ import br.com.dev360.globalwalletexplorer.corenetwork.helper.mapSuccess
 import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.CurrenciesContracts
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
+import com.apollographql.apollo.cache.normalized.FetchPolicy
 import org.koin.core.annotation.Factory
 
 @Factory
 class CurrenciesDataSourceImpl(
     private val apolloClient: ApolloClient
 ) : CurrenciesContracts.DataSource {
-    override suspend fun getAvailableCurrencies(): ApiResult<List<AvailableCurrenciesQuery.Currency>> {
-        return apolloClient.safeQuery(AvailableCurrenciesQuery())
+    override suspend fun getAvailableCurrencies(forceRefresh: Boolean): ApiResult<List<AvailableCurrenciesQuery.Currency>> {
+        val policy = if (forceRefresh) FetchPolicy.NetworkFirst else null
+        return apolloClient
+            .safeQuery(query = AvailableCurrenciesQuery(), policy = policy)
             .mapSuccess { it.currencies }
     }
 

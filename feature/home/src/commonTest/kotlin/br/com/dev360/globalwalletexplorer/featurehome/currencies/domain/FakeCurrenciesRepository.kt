@@ -9,6 +9,9 @@ class FakeCurrenciesRepository(
     private val convertAmountResult: ApiResult<List<ConvertAmountQuery.Convert>>? = null
 ) : CurrenciesContracts.Repository {
 
+    var lastForceRefreshValue: Boolean? = null
+        private set
+
     var getAvailableCurrenciesCalls = 0
         private set
 
@@ -18,8 +21,9 @@ class FakeCurrenciesRepository(
     var lastConvertParams: ConvertParams? = null
         private set
 
-    override suspend fun getAvailableCurrencies(): ApiResult<List<AvailableCurrenciesQuery.Currency>> {
+    override suspend fun getAvailableCurrencies(forceRefresh: Boolean): ApiResult<List<AvailableCurrenciesQuery.Currency>> {
         getAvailableCurrenciesCalls++
+        lastForceRefreshValue = forceRefresh
         return availableCurrenciesResult
             ?: error("availableCurrenciesResult not provided")
     }

@@ -10,7 +10,7 @@ ksp = "2.1.10-1.0.29"
 # Core Frameworks
 composeMultiplatform = "1.8.2"
 navigation = "2.9.0-beta01"
-buildkonfig = "0.15.2"
+buildkonfig = "0.17.1"
 
 # Others dependencies
 androidx-activity = "1.12.2"
@@ -47,6 +47,7 @@ koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "
 # Apollo (GraphQL)
 apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime" }
 apollo-normalized-cache = { module = "com.apollographql.apollo:apollo-normalized-cache" }
+apollo-normalized-cache-sqlite = { module = "com.apollographql.apollo:apollo-normalized-cache-sqlite" }
 # Ktor & Serialization
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }

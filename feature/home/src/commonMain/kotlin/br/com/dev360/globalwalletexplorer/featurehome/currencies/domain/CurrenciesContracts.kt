@@ -9,7 +9,7 @@ import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.model.Cu
 
 interface CurrenciesContracts {
     interface DataSource {
-        suspend fun getAvailableCurrencies(): ApiResult<List<AvailableCurrenciesQuery.Currency>>
+        suspend fun getAvailableCurrencies(forceRefresh: Boolean = false): ApiResult<List<AvailableCurrenciesQuery.Currency>>
 
         suspend fun convertAmount(
             amount: String,
@@ -20,7 +20,7 @@ interface CurrenciesContracts {
     }
 
     interface Repository {
-        suspend fun getAvailableCurrencies(): ApiResult<List<AvailableCurrenciesQuery.Currency>>
+        suspend fun getAvailableCurrencies(forceRefresh: Boolean = false): ApiResult<List<AvailableCurrenciesQuery.Currency>>
 
         suspend fun convertAmount(
             amount: String,
@@ -31,6 +31,7 @@ interface CurrenciesContracts {
     }
 
     interface UiModel {
+        fun getEmptyListText(): UiText
         fun getFailureText(failure: ApiResult.Failure): UiText
     }
 }

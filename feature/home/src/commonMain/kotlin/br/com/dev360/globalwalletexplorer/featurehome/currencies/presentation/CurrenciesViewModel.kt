@@ -8,6 +8,7 @@ import br.com.dev360.globalwalletexplorer.coresharedui.helpers.UiText
 import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.CurrenciesContracts
 import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.model.CurrencyItem
 import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.model.toCurrencyList
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -46,25 +48,28 @@ class CurrenciesViewModel(
 ) {
 
     private val _uiState = MutableStateFlow(CurrenciesUiState())
-    private val _events = MutableSharedFlow<CurrenciesEvents>()
+    private val _events = Channel<CurrenciesEvents>()
 
     val uiState = _uiState.asStateFlow()
-    val events = _events.asSharedFlow()
+    val events = _events.receiveAsFlow()
 
-    fun getAvailableCurrencies() {
+    fun getAvailableCurrencies(forceRefresh: Boolean = false) {
         scope.launch {
             flow {
-                emit(repository.getAvailableCurrencies())
+                emit(repository.getAvailableCurrencies(forceRefresh))
             }.onStart {
                 _uiState.update { it.copy(isLoading = true) }
             }.collectLatest { result ->
 
                 result.onHandle(
                     success = { data ->
+                        val currencyList = data.toCurrencyList()
+
                         _uiState.update {
                             it.copy(
-                                currencies = data.toCurrencyList(),
-                                isLoading = false
+                                currencies = currencyList,
+                                isLoading = false,
+                                error = if (currencyList.isEmpty()) uiModel.getEmptyListText() else null
                             )
                         }
                     },
@@ -76,7 +81,7 @@ class CurrenciesViewModel(
 
     fun goToLatestRates(base: String) {
         scope.launch {
-            _events.emit(CurrenciesEvents.GoToLatestRates(base))
+            _events.send(CurrenciesEvents.GoToLatestRates(base))
         }
     }
 
