@@ -1,6 +1,5 @@
 package br.com.dev360.globalwalletexplorer.featurehome.currencies.presentation
 
-import br.com.dev360.globalwalletexplorer.corenetwork.AvailableCurrenciesQuery
 import br.com.dev360.globalwalletexplorer.corenetwork.helper.ApiResult
 import br.com.dev360.globalwalletexplorer.coreshared.scope.TestAppCoroutineScope
 import br.com.dev360.globalwalletexplorer.coresharedui.helpers.UiText
@@ -8,16 +7,13 @@ import br.com.dev360.globalwalletexplorer.featurehome.currencies.domain.FakeCurr
 import br.com.dev360.globalwalletexplorer.featurehome.latestrates.BASE_CURRENCY
 import br.com.dev360.globalwalletexplorer.featurehome.latestrates.NETWORK_ERROR_MESSAGE
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CurrenciesViewModelTest {
