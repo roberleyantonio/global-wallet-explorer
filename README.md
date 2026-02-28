@@ -67,11 +67,8 @@ The app is fully internationalized, supporting dynamic locale switching, localiz
 - [ ] **Compose UI Testing:** Implementing UI tests with Semantics and Test Tag to ensure component reliability.
 - [ ] **Snapshot Testing with Paparazzi:** Verifying UI consistency and internationalization (i18n) across different device sizes and locales without an emulator.
 
-### Phase 3: Optimization & UX (Planned 🚀)
+### Phase 3: Optimization (Planned 🚀)
 - [x] **Normalized Cache** (SQLite) for offline-first capabilities and API quota saving.
-- [ ] Real-time **Currency Converter** tool.
-- [ ] Search and Filter functionality for the currency list.
-- [ ] Pull-to-refresh and Loading states with Shimmer effect.
 
 ### Phase 4: Advanced Features 🚀
 - [ ] **Historical Data Charts** using a specialized charting library.
